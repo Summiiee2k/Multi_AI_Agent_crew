@@ -8,7 +8,7 @@ from langchain_groq import ChatGroq
 # --- CONFIGURATION ---
 os.environ["CREWAI_TRACING_ENABLED"] = "0" 
 
-st.set_page_config(page_title="Llama Newsroom Live", layout="wide", page_icon="🦙")
+st.set_page_config(page_title="Newsroom Live", layout="wide")
 
 # --- CSS STYLING ---
 st.markdown("""
@@ -126,7 +126,7 @@ col1, col2 = st.columns([1, 1])
 # Left Column: The Live Feed
 with col1:
     st.subheader("What 's Happening in the Newsroom?")
-    chat_container = st.container()
+    chat_container = st.container(border=True)
     
     # Render logs from history
     with chat_container:
@@ -137,9 +137,11 @@ with col1:
 # Right Column: The Artifact
 with col2:
     st.subheader("Your Published Article")
-    if st.session_state.final_article:
-        st.markdown(st.session_state.final_article)
-        st.download_button("Download Article", st.session_state.final_article, "article.md")
+    chat_container = st.container(border=True)
+    with chat_container:
+        if st.session_state.final_article:
+            st.markdown(st.session_state.final_article)
+            st.download_button("Download Article", st.session_state.final_article, "article.md")
 
 # --- RUN BUTTON ---
 if st.sidebar.button("Start  Production"):
