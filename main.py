@@ -6,7 +6,7 @@ from crewai_tools import TavilySearchTool
 from langchain_groq import ChatGroq
 
 # --- CONFIGURATION ---
-os.environ["CREWAI_TRACING_ENABLED"] = "0" # Disable the tracking prompt
+os.environ["CREWAI_TRACING_ENABLED"] = "0" 
 
 st.set_page_config(page_title="Llama Newsroom Live", layout="wide", page_icon="🦙")
 
@@ -31,7 +31,7 @@ with st.sidebar:
     
     if groq_key: os.environ["GROQ_API_KEY"] = groq_key
     if tavily_key: os.environ["TAVILY_API_KEY"] = tavily_key
-    os.environ["OPENAI_API_KEY"] = "NA" # Bypass OpenAI check
+    os.environ["OPENAI_API_KEY"] = "NA" 
 
 # --- SESSION STATE ---
 if "log_messages" not in st.session_state:
@@ -43,7 +43,6 @@ if "final_article" not in st.session_state:
 # This function runs every time an agent takes a "Step" (thinks or acts)
 def step_callback(step_output, agent_name, agent_icon):
     # Extract the thought process
-    # step_output is usually a list of AgentStep objects
     thought = ""
     try:
         if isinstance(step_output, list):
@@ -54,7 +53,6 @@ def step_callback(step_output, agent_name, agent_icon):
         thought = str(step_output)
     
     # Add to Session State
-    # We clean it up a bit to remove messy internal codes
     clean_log = thought.replace("Thought:", "").strip()
     if clean_log:
         st.session_state.log_messages.append({
@@ -149,11 +147,10 @@ if st.sidebar.button("Start  Production"):
         st.error("Please enter keys!")
         st.stop()
         
-    st.session_state.log_messages = [] # Clear old logs
+    st.session_state.log_messages = []
     st.session_state.final_article = ""
     
     with st.spinner("Agents are collaborating..."):
-        # We don't need redirect_stdout anymore!
         result = run_newsroom(topic)
         st.session_state.final_article = str(result)
-        st.rerun() # Force a refresh to show the final artifact nicely
+        st.rerun()
