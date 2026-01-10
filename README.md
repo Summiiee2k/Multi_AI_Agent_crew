@@ -1,6 +1,6 @@
-# Multi AI Agent Newsroom 
+# Multi AI Agent Article Publishing 
 
-**The Glass-Box Newsroom** is a Streamlit application that leverages **CrewAI** to orchestrate a team of autonomous AI agents. These agents collaborate to research, write, and edit high-quality blog posts on any given topic in real-time.
+**The Glass-Box Publishing** is a Streamlit application that leverages **CrewAI** to orchestrate a team of autonomous AI agents. These agents collaborate to research, write, and edit high-quality blog posts on any given topic in real-time.
 
 ##  Features
 
@@ -27,7 +27,7 @@ Before running the application, ensure you have the following API keys:
 
 ## Installation
 
-1. Clone the repository (if applicable) or navigate to the project directory.
+1. Clone the repository.
 2. Install the required dependencies:
 
 ```bash
@@ -46,7 +46,7 @@ streamlit run main.py
 3. In the sidebar:
    - Enter your **Groq API Key**.
    - Enter your **Tavily Search Key**.
-   - Enter a **Topic** you want the agents to write about (e.g., "The Future of Open Source AI").
+   - Enter a **Topic** you want the agents to write about.
 4. Click **"Start Production"**.
 5. Watch the agents work in the left column and view the final article in the right column!
 

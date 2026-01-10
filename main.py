@@ -8,7 +8,7 @@ from langchain_groq import ChatGroq
 # --- CONFIGURATION ---
 os.environ["CREWAI_TRACING_ENABLED"] = "0" 
 
-st.set_page_config(page_title="Newsroom Live", layout="wide")
+st.set_page_config(page_title="Newsroom Live", layout="wide" )
 
 # --- CSS STYLING ---
 st.markdown("""
@@ -18,13 +18,20 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("The Glass-Box Newsroom")
+st.logo("logo.png",size="Large")
+col1, col2 = st.columns([4, 1])
+with col1:
+    st.markdown("###")
+    st.title("The Glass-Box Publishing", text_alignment="center", width="stretch")
+with col2:
+    st.image("logo.png", width=500)
+
+st.markdown("### Topic")
+topic = st.text_input("", placeholder="Enter a topic to generate a blog post.")
 
 # --- SIDEBAR ---
 with st.sidebar:
     st.header("Control Panel")
-    topic = st.text_input("Topic", "The Future of Open Source AI")
-    
     st.markdown("### API Keys")
     groq_key = st.text_input("Groq API Key", type="password")
     tavily_key = st.text_input("Tavily Search Key", type="password")
@@ -41,7 +48,6 @@ if "final_article" not in st.session_state:
 
 # --- UI HELPER: STREAMING TEXT ---
 def stream_text(text_placeholder, text, delay=0.005):
-    """Simulates typing effect for text."""
     full_text = ""
     for char in text:
         full_text += char
@@ -160,7 +166,9 @@ col1, col2 = st.columns([1, 1])
 # Left Column: The Live Feed
 live_feed_placeholder = col1.container(border=True)
 with live_feed_placeholder:
+    st.markdown(f"### Current Topic: {topic}")
     st.subheader("What's Happening in the Newsroom?")
+    st.markdown("---------------------------------------------------")
     # Create a specific container for logs that we can write to nicely
     log_area = st.container()
 
@@ -168,6 +176,7 @@ with live_feed_placeholder:
 artifact_placeholder = col2.container(border=True)
 with artifact_placeholder:
     st.subheader("Your Published Article")
+    st.markdown("---------------------------------------------------")
     final_article_area = st.empty()
 
 
@@ -197,8 +206,7 @@ if st.sidebar.button("Start  Production"):
     log_area.empty()
     final_article_area.empty()
     
-    # Display Topic
-    st.markdown(f"### Current Topic: {topic}")
+    
     
     with st.spinner("Agents are collaborating..."):
         # We pass the 'log_area' container to the function so it can write live updates
