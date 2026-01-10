@@ -128,7 +128,7 @@ def run_newsroom(topic_input, log_placeholder):
     editor = Agent(
         role='Chief Editor',
         goal='Polish the blog post',
-        backstory="You ensure the tone is professional. You ensure that the final article has a 'References' section at the bottom.",
+        backstory="You ensure the tone is professional. You ensure that the final article has a 'References' section at the bottom. You also ensure that the final article is long and detailed.",
         llm=llm,
         step_callback=lambda x: step_callback(x, "⚖️ EDITOR", "⚖️", log_placeholder)
     )
@@ -208,16 +208,17 @@ if st.sidebar.button("Start  Production"):
     
     
     
-    with st.spinner("Agents are collaborating..."):
-        # We pass the 'log_area' container to the function so it can write live updates
-        result = run_newsroom(topic, log_area)
-        
-        # Simulating streaming for the final artifact as well
-        final_text = str(result)
-        st.session_state.final_article = final_text
-        
-        # Stream the final result to the right column
-        stream_text(final_article_area, final_text, delay=0.002)
+    with log_area:
+        with st.spinner("Agents are collaborating..."):
+            # We pass the 'log_area' container to the function so it can write live updates
+            result = run_newsroom(topic, log_area)
+            
+            # Simulating streaming for the final artifact as well
+            final_text = str(result)
+            st.session_state.final_article = final_text
+            
+            # Stream the final result to the right column
+            stream_text(final_article_area, final_text, delay=0.002)
         
     st.success("Production Complete!")
     # No need to rerun immediately, as we've updated the UI live. 
